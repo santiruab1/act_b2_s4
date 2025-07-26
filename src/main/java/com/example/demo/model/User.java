@@ -1,7 +1,5 @@
 package com.example.demo.model;
 
-import com.example.demo.repository.UserRepository;
-
 import jakarta.persistence.*;
 
 @Entity
