@@ -1,37 +1,31 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
-import java.util.Optional;
+import com.example.demo.model.User;
+import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.model.User;
-import com.example.demo.service.UserService;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
 @CrossOrigin(origins = "*")
 public class UserController {
+
     @Autowired
     private UserService userService;
 
+    // Obtener todos los usuarios
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    // Obtener usuario por ID
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         Optional<User> user = userService.getUserById(id);
@@ -42,6 +36,7 @@ public class UserController {
         }
     }
 
+    // Crear nuevo usuario
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
         try {
@@ -52,6 +47,7 @@ public class UserController {
         }
     }
 
+    // Actualizar usuario
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
         try {
@@ -62,6 +58,7 @@ public class UserController {
         }
     }
 
+    // Eliminar usuario
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable Long id) {
         try {
@@ -72,10 +69,17 @@ public class UserController {
         }
     }
 
+    // Buscar usuarios por nombre
     @GetMapping("/search/name/{name}")
     public ResponseEntity<List<User>> findByName(@PathVariable String name) {
         List<User> users = userService.findByName(name);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    // Buscar usuarios por email
+    @GetMapping("/search/email/{email}")
+    public ResponseEntity<List<User>> findByEmail(@PathVariable String email) {
+        List<User> users = userService.findByEmail(email);
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
 }
